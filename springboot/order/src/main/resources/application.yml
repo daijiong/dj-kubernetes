@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.247.132:8848
+  application:
+    name: order
+
+server:
+  port: 9090
