@@ -5,10 +5,10 @@ metadata:
   name: nginx-ingress
 spec:
   rules:
-  - host: tomcat.jack.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: tomcat-service
-          servicePort: 80
+    - host: tomcat.jack.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: tomcat-service
+              servicePort: 80

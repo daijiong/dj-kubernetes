@@ -15,7 +15,7 @@ spec:
         app: whoami
     spec:
       containers:
-      - name: whoami
-        image: jwilder/whoami
-        ports:
-        - containerPort: 8000
+        - name: whoami
+          image: jwilder/whoami
+          ports:
+            - containerPort: 8000

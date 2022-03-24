@@ -12,21 +12,21 @@ spec:
         app: wordpress
     spec:
       containers:
-      - name: wordpress
-        image: wordpress
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 80
-          name: wdport
-        # 这里修改成mysql的pod的访问地址，账号和密码
-        env:
-        - name: WORDPRESS_DB_HOST
-          # 这里是mysql的pod外面的service的IP地址，不是mysql的pod的IP地址
-          value: 10.105.38.153:3306                     
-        - name: WORDPRESS_DB_USER
-          value: wordpress
-        - name: WORDPRESS_DB_PASSWORD
-          value: wordpress
+        - name: wordpress
+          image: wordpress
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              name: wdport
+          # 这里修改成mysql的pod的访问地址，账号和密码
+          env:
+            - name: WORDPRESS_DB_HOST
+              # 这里是mysql的pod外面的service的IP地址，不是mysql的pod的IP地址
+              value: 10.105.38.153:3306
+            - name: WORDPRESS_DB_USER
+              value: wordpress
+            - name: WORDPRESS_DB_PASSWORD
+              value: wordpress
 ---
 apiVersion: v1
 kind: Service
@@ -38,7 +38,7 @@ spec:
   selector:
     app: wordpress
   ports:
-  - name: wordpressport
-    protocol: TCP
-    port: 80
-    targetPort: wdport
+    - name: wordpressport
+      protocol: TCP
+      port: 80
+      targetPort: wdport

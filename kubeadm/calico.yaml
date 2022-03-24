@@ -265,7 +265,7 @@ metadata:
   name: calico-kube-controllers
 rules:
   # Nodes are watched to monitor for deletions.
-  - apiGroups: [""]
+  - apiGroups: [ "" ]
     resources:
       - nodes
     verbs:
@@ -273,18 +273,18 @@ rules:
       - list
       - get
   # Pods are queried to check for existence.
-  - apiGroups: [""]
+  - apiGroups: [ "" ]
     resources:
       - pods
     verbs:
       - get
   # IPAM resources are manipulated when nodes are deleted.
-  - apiGroups: ["crd.projectcalico.org"]
+  - apiGroups: [ "crd.projectcalico.org" ]
     resources:
       - ippools
     verbs:
       - list
-  - apiGroups: ["crd.projectcalico.org"]
+  - apiGroups: [ "crd.projectcalico.org" ]
     resources:
       - blockaffinities
       - ipamblocks
@@ -296,7 +296,7 @@ rules:
       - update
       - delete
   # Needs access to update clusterinformations.
-  - apiGroups: ["crd.projectcalico.org"]
+  - apiGroups: [ "crd.projectcalico.org" ]
     resources:
       - clusterinformations
     verbs:
@@ -313,9 +313,9 @@ roleRef:
   kind: ClusterRole
   name: calico-kube-controllers
 subjects:
-- kind: ServiceAccount
-  name: calico-kube-controllers
-  namespace: kube-system
+  - kind: ServiceAccount
+    name: calico-kube-controllers
+    namespace: kube-system
 ---
 # Include a clusterrole for the calico-node DaemonSet,
 # and bind it to the calico-node serviceaccount.
@@ -325,14 +325,14 @@ metadata:
   name: calico-node
 rules:
   # The CNI plugin needs to get pods, nodes, and namespaces.
-  - apiGroups: [""]
+  - apiGroups: [ "" ]
     resources:
       - pods
       - nodes
       - namespaces
     verbs:
       - get
-  - apiGroups: [""]
+  - apiGroups: [ "" ]
     resources:
       - endpoints
       - services
@@ -342,7 +342,7 @@ rules:
       - list
       # Used to discover Typhas.
       - get
-  - apiGroups: [""]
+  - apiGroups: [ "" ]
     resources:
       - nodes/status
     verbs:
@@ -351,14 +351,14 @@ rules:
       # Calico stores some configuration information in node annotations.
       - update
   # Watch for changes to Kubernetes NetworkPolicies.
-  - apiGroups: ["networking.k8s.io"]
+  - apiGroups: [ "networking.k8s.io" ]
     resources:
       - networkpolicies
     verbs:
       - watch
       - list
   # Used by Calico for policy information.
-  - apiGroups: [""]
+  - apiGroups: [ "" ]
     resources:
       - pods
       - namespaces
@@ -367,13 +367,13 @@ rules:
       - list
       - watch
   # The CNI plugin patches pods/status.
-  - apiGroups: [""]
+  - apiGroups: [ "" ]
     resources:
       - pods/status
     verbs:
       - patch
   # Calico monitors various CRDs for config.
-  - apiGroups: ["crd.projectcalico.org"]
+  - apiGroups: [ "crd.projectcalico.org" ]
     resources:
       - globalfelixconfigs
       - felixconfigurations
@@ -394,7 +394,7 @@ rules:
       - list
       - watch
   # Calico must create and update some CRDs on startup.
-  - apiGroups: ["crd.projectcalico.org"]
+  - apiGroups: [ "crd.projectcalico.org" ]
     resources:
       - ippools
       - felixconfigurations
@@ -403,7 +403,7 @@ rules:
       - create
       - update
   # Calico stores some configuration information on the node.
-  - apiGroups: [""]
+  - apiGroups: [ "" ]
     resources:
       - nodes
     verbs:
@@ -412,7 +412,7 @@ rules:
       - watch
   # These permissions are only requried for upgrade from v2.6, and can
   # be removed after upgrade or on fresh installations.
-  - apiGroups: ["crd.projectcalico.org"]
+  - apiGroups: [ "crd.projectcalico.org" ]
     resources:
       - bgpconfigurations
       - bgppeers
@@ -420,7 +420,7 @@ rules:
       - create
       - update
   # These permissions are required for Calico CNI to perform IPAM allocations.
-  - apiGroups: ["crd.projectcalico.org"]
+  - apiGroups: [ "crd.projectcalico.org" ]
     resources:
       - blockaffinities
       - ipamblocks
@@ -431,20 +431,20 @@ rules:
       - create
       - update
       - delete
-  - apiGroups: ["crd.projectcalico.org"]
+  - apiGroups: [ "crd.projectcalico.org" ]
     resources:
       - ipamconfigs
     verbs:
       - get
   # Block affinities must also be watchable by confd for route aggregation.
-  - apiGroups: ["crd.projectcalico.org"]
+  - apiGroups: [ "crd.projectcalico.org" ]
     resources:
       - blockaffinities
     verbs:
       - watch
   # The Calico IPAM migration needs to get daemonsets. These permissions can be
   # removed if not upgrading from an installation using host-local IPAM.
-  - apiGroups: ["apps"]
+  - apiGroups: [ "apps" ]
     resources:
       - daemonsets
     verbs:
@@ -459,9 +459,9 @@ roleRef:
   kind: ClusterRole
   name: calico-node
 subjects:
-- kind: ServiceAccount
-  name: calico-node
-  namespace: kube-system
+  - kind: ServiceAccount
+    name: calico-node
+    namespace: kube-system
 
 ---
 # Source: calico/templates/calico-node.yaml
@@ -517,7 +517,7 @@ spec:
         # upgraded to use calico-ipam.
         - name: upgrade-ipam
           image: calico/cni:v3.9.6
-          command: ["/opt/cni/bin/calico-ipam", "-upgrade"]
+          command: [ "/opt/cni/bin/calico-ipam", "-upgrade" ]
           env:
             - name: KUBERNETES_NODE_NAME
               valueFrom:
@@ -537,7 +537,7 @@ spec:
         # and CNI network config file on each node.
         - name: install-cni
           image: calico/cni:v3.9.6
-          command: ["/install-cni.sh"]
+          command: [ "/install-cni.sh" ]
           env:
             # Name of the CNI config file to create.
             - name: CNI_CONF_NAME
@@ -572,8 +572,8 @@ spec:
         - name: flexvol-driver
           image: calico/pod2daemon-flexvol:v3.9.6
           volumeMounts:
-          - name: flexvol-driver-host
-            mountPath: /host/driver
+            - name: flexvol-driver-host
+              mountPath: /host/driver
       containers:
         # Runs calico-node container on each Kubernetes node.  This
         # container programs network policy and routes on each
@@ -640,18 +640,18 @@ spec:
           livenessProbe:
             exec:
               command:
-              - /bin/calico-node
-              - -felix-live
-              - -bird-live
+                - /bin/calico-node
+                - -felix-live
+                - -bird-live
             periodSeconds: 10
             initialDelaySeconds: 10
             failureThreshold: 6
           readinessProbe:
             exec:
               command:
-              - /bin/calico-node
-              - -felix-ready
-              - -bird-ready
+                - /bin/calico-node
+                - -felix-ready
+                - -bird-ready
             periodSeconds: 10
           volumeMounts:
             - mountPath: /lib/modules
@@ -764,8 +764,8 @@ spec:
           readinessProbe:
             exec:
               command:
-              - /usr/bin/check-status
-              - -r
+                - /usr/bin/check-status
+                - -r
 
 ---
 
