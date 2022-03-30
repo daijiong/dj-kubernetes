@@ -8,7 +8,7 @@ spec:
       image: nginx
       volumeMounts:
         - name: my-pvc
-          mountPath: "/usr/jack"
+          mountPath: /usr/storageclass
   restartPolicy: "Never"
   volumes:
     - name: my-pvc

@@ -3,20 +3,33 @@ kind: Pod
 metadata:
   name: volume-pod
 spec:
+  #  # 是否使用主机的网络
+  #  hostNetwork: true
+  #  # 是否使用主机的PID命令空间
+  #  hostPID: true
+  #  # 自定义容器的IP地址
+  #  hostAliases:
+  #    - ip: "192.168.8.61"
+  #  # 自定义容器的主机名
+  #  hostname: test.jack.com
+  # 一个pod中的多个容器可以都绑定宿主机中的路径，达到共享宿主机的存储目录
   containers:
     - name: nginx-container
       image: nginx
       ports:
         - containerPort: 80
+      # 定义容器中绑定的存储，即将容器中的某个路径和宿主机中的某个路径互相绑定
       volumeMounts:
         - name: volume-pod
           mountPath: /nginx-volume
     - name: busybox-container
       image: busybox
       command: [ 'sh', '-c', 'echo The app is running! && sleep 3600' ]
+      # 定义容器中绑定的存储，即将容器中的某个路径和宿主机中的某个路径互相绑定
       volumeMounts:
         - name: volume-pod
           mountPath: /busybox-volume
+  # 定义host类型的存储
   volumes:
     - name: volume-pod
       hostPath:

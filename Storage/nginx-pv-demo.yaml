@@ -4,13 +4,16 @@ kind: PersistentVolume
 metadata:
   name: nginx-pv
 spec:
+  # 定义PV的访问模式
   accessModes:
     - ReadWriteMany
+  # 定义PV的存储容量
   capacity:
     storage: 2Gi
+  # 远端服务器配置
   nfs:
     path: /nfs/data/nginx
-    server: 121.41.10.13
+    server: 172.24.253.248
 
 ---
 # 定义PVC，用于消费PV
@@ -19,9 +22,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: nginx-pvc
 spec:
+  # 定义PVC的访问模式
   accessModes:
     - ReadWriteMany
   resources:
+    # 定义PVC请求的PV的存储容量
     requests:
       storage: 2Gi
 
@@ -45,9 +50,11 @@ spec:
           name: mysql
           ports:
             - containerPort: 80
+          # 定义容器中使用pvc的方式将容器中的某一个路径和pv对应的nfs上的指定路径互相绑定，从而将容器的存储不依赖于宿主机
           volumeMounts:
             - name: nginx-persistent-storage
               mountPath: /usr/share/nginx/html
+      # 定义pvc类型的存储
       volumes:
         - name: nginx-persistent-storage
           persistentVolumeClaim:

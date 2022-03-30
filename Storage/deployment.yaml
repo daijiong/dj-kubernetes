@@ -25,13 +25,18 @@ spec:
               mountPath: /persistentvolumes
           env:
             - name: PROVISIONER_NAME
+              # 指定手动创建的NFS类型的provisioner的名称，提供给StorageClass使用
               value: example.com/nfs
             - name: NFS_SERVER
-              value: 121.41.10.13
+              # 指定NFS服务器的IP地址
+              value: 172.24.253.248
             - name: NFS_PATH
-              value: /nfs/data/jack
+              # 指定NFS服务器的路径
+              value: /nfs/data/storageclass
       volumes:
         - name: nfs-client-root
           nfs:
-            server: 121.41.10.13
-            path: /nfs/data/jack
+            # 指定NFS服务器的IP地址
+            server: 172.24.253.248
+            # 指定NFS服务器的路径
+            path: /nfs/data/storageclass
