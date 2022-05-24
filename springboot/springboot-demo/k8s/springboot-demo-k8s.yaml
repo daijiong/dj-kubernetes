@@ -47,7 +47,7 @@ metadata:
   name: springboot-demo
 spec:
   rules:
-    - host: springboot.jack.com
+    - host: springboot.djflying.com
       http:
         paths:
           - path: /
