@@ -44,7 +44,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: springboot-demo
+  name: nginx-ingress
 spec:
   rules:
     - host: springboot.djflying.com
