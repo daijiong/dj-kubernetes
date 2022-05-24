@@ -1,3 +1,4 @@
+# 以Deployment部署Pod
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,21 +15,39 @@ spec:
     spec:
       containers:
         - name: springboot-demo
-          image:
+          image: registry.cn-hangzhou.aliyuncs.com/djflying/springboot-demo:main
           imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
       restartPolicy: Always
   selector:
     matchLabels:
       app: springboot-demo
 ---
+# 创建Pod的Service
 apiVersion: v1
 kind: Service
 metadata:
-  name:
+  name: springboot-demo
 spec:
   selector:
-    app:
+    app: springboot-demo
   ports:
-    - port: 8080
-  type: NodePort
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
 ---
+# 创建Ingress，定义访问规则
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: springboot-demo
+spec:
+  rules:
+    - host: springboot.jack.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: springboot-demo
+              servicePort: 80
