@@ -20,6 +20,9 @@ spec:
           ports:
             - containerPort: 8080
       restartPolicy: Always
+      # 设置kubernetes中拉取阿里云镜像仓库镜像的secrets
+      imagePullSecrets:
+        - name: aliyun-registry
   selector:
     matchLabels:
       app: springboot-demo
