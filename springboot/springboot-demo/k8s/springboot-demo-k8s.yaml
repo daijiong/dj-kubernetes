@@ -7,6 +7,10 @@ metadata:
     app: springboot-demo
 spec:
   replicas: 1
+  selector:
+    # 选择labels是app:springboot-demo的pod
+    matchLabels:
+      app: springboot-demo
   template:
     metadata:
       name: springboot-demo
@@ -19,13 +23,11 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
+      # 设置pod的重启策略
       restartPolicy: Always
       # 设置kubernetes中拉取阿里云镜像仓库镜像的secrets
       imagePullSecrets:
         - name: aliyun-registry
-  selector:
-    matchLabels:
-      app: springboot-demo
 ---
 # 创建Pod的Service
 apiVersion: v1
@@ -34,12 +36,13 @@ metadata:
   name: springboot-demo
 spec:
   selector:
+    # 先择labels是app:springboot-demo的deployment和pod
     app: springboot-demo
   ports:
     - port: 80
       protocol: TCP
       targetPort: 8080
-  type: NodePort
+  type: ClusterIP
 ---
 # 创建Ingress，定义访问规则
 #apiVersion: extensions/v1beta1
