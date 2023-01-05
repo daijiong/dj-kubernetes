@@ -1,1 +1,1 @@
-# gp-kubernetes
+# Kubernetes Demos

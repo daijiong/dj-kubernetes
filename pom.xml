@@ -8,8 +8,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>springboot/springboot-demo</module>
-        <module>springboot/user</module>
-        <module>springboot/order</module>
+        <module>Projects/springboot/springboot-demo</module>
+        <module>Projects/springboot/user</module>
+        <module>Projects/springboot/order</module>
     </modules>
 </project>
